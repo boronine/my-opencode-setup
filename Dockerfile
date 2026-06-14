@@ -21,11 +21,11 @@ RUN curl -fsSL https://opencode.ai/install | bash \
 	&& chown -R ubuntu:ubuntu /home/ubuntu
 
 COPY init.sh /home/ubuntu/init.sh
-RUN chmod +x /home/ubuntu/init.sh
+COPY AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
+RUN chmod +x /home/ubuntu/init.sh \
+	&& chown ubuntu:ubuntu /home/ubuntu/init.sh /home/ubuntu/.config/opencode/AGENTS.md
 
 USER ubuntu
-
-COPY AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
 
 EXPOSE 3000
 CMD ["/home/ubuntu/init.sh"]
