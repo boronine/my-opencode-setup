@@ -1,6 +1,6 @@
 FROM ubuntu
 # GitHub CLI
-RUN apt update && apt install -y wget curl xdg-utils
+RUN apt update && apt install -y wget curl xdg-utils docker.io
 RUN mkdir -p -m 755 /etc/apt/keyrings \
 	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
 	&& cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
@@ -10,6 +10,7 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
 	&& apt update \
 	&& apt install gh -y
 ENV HOME=/home/ubuntu
+RUN usermod -aG docker ubuntu
 RUN curl -fsSL https://opencode.ai/install | bash \
 	&& chown -R ubuntu:ubuntu /home/ubuntu
 RUN mkdir -p /home/ubuntu/.config/opencode
