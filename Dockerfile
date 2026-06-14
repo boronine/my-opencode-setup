@@ -28,4 +28,8 @@ USER ubuntu
 COPY GLOBAL_AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
 
 EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+	CMD curl -sS http://localhost:3000/ > /dev/null || exit 1
+
 CMD ["/home/ubuntu/init.sh"]
