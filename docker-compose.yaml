@@ -21,6 +21,12 @@ services:
       - MOONSHOT_API_KEY=${MOONSHOT_API_KEY:-}
       - GH_TOKEN=${GH_TOKEN}
       - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "if [ -n \"$OPENCODE_SERVER_PASSWORD\" ]; then curl -fsS -u \"opencode:$OPENCODE_SERVER_PASSWORD\" http://localhost:3000/global/health > /dev/null; else curl -fsS http://localhost:3000/global/health > /dev/null; fi || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
     networks:
       - opencode
 

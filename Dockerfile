@@ -29,7 +29,11 @@ COPY GLOBAL_AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-	CMD curl -sS http://localhost:3000/ > /dev/null || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+	CMD if [ -n "$OPENCODE_SERVER_PASSWORD" ]; then \
+		curl -fsS -u "opencode:$OPENCODE_SERVER_PASSWORD" http://localhost:3000/global/health > /dev/null; \
+	else \
+		curl -fsS http://localhost:3000/global/health > /dev/null; \
+	fi || exit 1
 
 CMD ["/home/ubuntu/init.sh"]
