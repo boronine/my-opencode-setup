@@ -11,5 +11,6 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
 	&& apt install gh -y
 RUN curl -fsSL https://opencode.ai/install | bash
 ENV PATH="/root/.opencode/bin:$PATH"
+ENV BROWSER=true
 EXPOSE 80
 CMD gh auth setup-git && opencode web --hostname 0.0.0.0 --port 80
