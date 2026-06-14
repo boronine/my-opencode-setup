@@ -14,6 +14,7 @@ RUN curl -fsSL https://opencode.ai/install | bash \
 	&& chown -R ubuntu:ubuntu /home/ubuntu
 ENV PATH="/home/ubuntu/.opencode/bin:$PATH"
 ENV BROWSER=true
+ENV OPENCODE_ENABLE_EXA=1
 USER ubuntu
 EXPOSE 3000
 CMD ["sh", "-c", "gh auth setup-git && opencode web --hostname 0.0.0.0 --port 3000"]
