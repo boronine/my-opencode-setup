@@ -10,7 +10,6 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
 	&& apt update \
 	&& apt install gh -y
 ENV HOME=/home/ubuntu
-RUN usermod -aG docker ubuntu
 RUN curl -fsSL https://opencode.ai/install | bash \
 	&& chown -R ubuntu:ubuntu /home/ubuntu
 RUN mkdir -p /home/ubuntu/.config/opencode

@@ -21,8 +21,8 @@ This file is injected into `~/.config/opencode/AGENTS.md` by the Dockerfile and 
 - Verify changes with tests when available.
 
 ## Docker-in-Docker
-- Docker CLI is available. Mount the host Docker socket (`-v /var/run/docker.sock:/var/run/docker.sock`) at container runtime to enable container management.
-- The host's docker group GID must be passed via `--group-add` if it differs from the container's docker group.
+- Docker CLI is available inside the container, backed by a separate `docker:27-dind` sidecar container running `dockerd` on TCP port 2375.
+- Configured via `docker-compose.yml`. The dind service uses named volumes (`dind-data`, `buildkit-cache`) and the opencode container sets `DOCKER_HOST=tcp://dind:2375`.
 
 ## GitHub
 - Use `gh` CLI for GitHub operations. Auth is handled via `GH_TOKEN` environment variable.

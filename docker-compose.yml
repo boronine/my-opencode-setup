@@ -1,0 +1,29 @@
+services:
+  dind:
+    image: docker:27-dind
+    privileged: true
+    command: dockerd --host=tcp://0.0.0.0:2375
+    volumes:
+      - dind-data:/var/lib/docker
+      - buildkit-cache:/var/lib/buildkit
+    networks:
+      - opencode
+
+  opencode:
+    build: .
+    depends_on:
+      - dind
+    ports:
+      - "3000:3000"
+    environment:
+      - DOCKER_HOST=tcp://dind:2375
+      - DEEPSEEK_API_KEY
+    networks:
+      - opencode
+
+volumes:
+  dind-data:
+  buildkit-cache:
+
+networks:
+  opencode:
