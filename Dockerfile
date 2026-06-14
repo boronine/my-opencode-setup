@@ -9,7 +9,6 @@ RUN mkdir -p -m 755 /etc/apt/keyrings \
 	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
 	&& apt update \
 	&& apt install gh -y
-RUN useradd -m ubuntu
 ENV HOME=/home/ubuntu
 RUN curl -fsSL https://opencode.ai/install | bash \
 	&& chown -R ubuntu:ubuntu /home/ubuntu
@@ -17,4 +16,4 @@ ENV PATH="/home/ubuntu/.opencode/bin:$PATH"
 ENV BROWSER=true
 USER ubuntu
 EXPOSE 3000
-CMD gh auth setup-git && opencode web --hostname 0.0.0.0 --port 3000
+CMD ["sh", "-c", "gh auth setup-git && opencode web --hostname 0.0.0.0 --port 3000"]
