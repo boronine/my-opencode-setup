@@ -17,4 +17,4 @@ ENV BROWSER=true
 ENV OPENCODE_ENABLE_EXA=1
 USER ubuntu
 EXPOSE 3000
-CMD ["sh", "-c", "gh auth setup-git && opencode web --hostname 0.0.0.0 --port 3000"]
+CMD ["sh", "-c", "mkdir -p ~/.local/share/opencode && printf '{\n  \"deepseek\": {\n    \"type\": \"api\",\n    \"key\": \"%s\"\n  }\n}\n' \"$DEEPSEEK_API_KEY\" > ~/.local/share/opencode/auth.json && gh auth setup-git && opencode web --hostname 0.0.0.0 --port 3000"]
