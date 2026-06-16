@@ -26,6 +26,7 @@ RUN chmod +x /home/ubuntu/init.sh
 USER ubuntu
 
 COPY GLOBAL_AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
+COPY opencode.jsonc /home/ubuntu/.config/opencode/opencode.jsonc
 
 EXPOSE 3000
 CMD ["/home/ubuntu/init.sh"]
