@@ -6,6 +6,12 @@ services:
     volumes:
       - dind-data:/var/lib/docker
       - buildkit-cache:/var/lib/buildkit
+    healthcheck:
+      test: ["CMD-SHELL", "docker -H tcp://localhost:2375 version > /dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
     networks:
       - opencode
 

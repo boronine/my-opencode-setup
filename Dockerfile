@@ -28,6 +28,16 @@ USER ubuntu
 COPY GLOBAL_AGENTS.md /home/ubuntu/.config/opencode/AGENTS.md
 COPY opencode.jsonc /home/ubuntu/.config/opencode/opencode.jsonc
 
+RUN mkdir -p /home/ubuntu/workspace /home/ubuntu/my-opencode-setup
+WORKDIR /home/ubuntu/workspace
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+	CMD if [ -n "$OPENCODE_SERVER_PASSWORD" ]; then \
+		curl -fsS -u "opencode:$OPENCODE_SERVER_PASSWORD" http://localhost:3000/global/health > /dev/null; \
+	else \
+		curl -fsS http://localhost:3000/global/health > /dev/null; \
+	fi || exit 1
+
 EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
