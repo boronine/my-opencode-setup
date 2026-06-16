@@ -12,6 +12,11 @@ printf '\n}\n' >> ~/.local/share/opencode/auth.json
 gh auth setup-git
 
 GH_USER=$(gh api user --jq '.login' 2>/dev/null || echo "unknown")
+if [ "$GH_USER" != "unknown" ]; then
+  git config --global user.name "$GH_USER"
+  git config --global user.email "${GH_USER}@users.noreply.github.com"
+fi
+
 cat ~/.config/opencode/AGENTS.md - <<EOF > ~/.config/opencode/AGENTS.md.tmp
 
 ## GitHub Identity
