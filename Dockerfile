@@ -1,6 +1,6 @@
 FROM ubuntu
 
-RUN apt update && apt install -y wget curl xdg-utils docker.io \
+RUN apt update && apt install -y wget curl xdg-utils docker.io sudo \
 	&& mkdir -p -m 755 /etc/apt/keyrings \
 	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
 	&& cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
@@ -22,6 +22,9 @@ RUN curl -fsSL https://opencode.ai/install | bash \
 
 COPY init.sh /home/ubuntu/init.sh
 RUN chmod +x /home/ubuntu/init.sh
+
+RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ubuntu \
+	&& chmod 0440 /etc/sudoers.d/ubuntu
 
 USER ubuntu
 
