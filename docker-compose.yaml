@@ -19,14 +19,24 @@ services:
     build: .
     depends_on:
       - dind
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - DOCKER_HOST=tcp://dind:2375
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:?}
       - MOONSHOT_API_KEY=${MOONSHOT_API_KEY:-}
       - GH_TOKEN=${GH_TOKEN}
       - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.opencode.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.opencode.entrypoints=websecure"
+      - "traefik.http.routers.opencode.tls.certResolver=letsencrypt"
+      - "traefik.http.routers.opencode-http.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.opencode-http.entrypoints=web"
+      - "traefik.http.routers.opencode-http.middlewares=opencode-redirect"
+      - "traefik.http.middlewares.opencode-redirect.redirectscheme.scheme=https"
+      - "traefik.http.services.opencode.loadbalancer.server.port=3000"
     healthcheck:
       test: ["CMD-SHELL", "if [ -n \"$OPENCODE_SERVER_PASSWORD\" ]; then curl -fsS -u \"opencode:$OPENCODE_SERVER_PASSWORD\" http://localhost:3000/global/health > /dev/null; else curl -fsS http://localhost:3000/global/health > /dev/null; fi || exit 1"]
       interval: 30s
@@ -35,6 +45,7 @@ services:
       retries: 3
     networks:
       - opencode
+      - dokploy-network
 
 volumes:
   dind-data:
@@ -42,3 +53,5 @@ volumes:
 
 networks:
   opencode:
+  dokploy-network:
+    external: true
