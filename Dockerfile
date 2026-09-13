@@ -1,5 +1,7 @@
 FROM ubuntu
 
+ARG TEA_VERSION=0.15.1
+
 RUN apt update && apt install -y wget curl xdg-utils docker.io sudo \
 	&& mkdir -p -m 755 /etc/apt/keyrings \
 	&& out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
@@ -10,6 +12,10 @@ RUN apt update && apt install -y wget curl xdg-utils docker.io sudo \
 	&& apt update \
 	&& apt install gh -y \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL "https://dl.gitea.com/tea/${TEA_VERSION}/tea-${TEA_VERSION}-linux-$(dpkg --print-architecture)" -o /usr/local/bin/tea \
+	&& chmod +x /usr/local/bin/tea \
+	&& tea --version
 
 ENV HOME=/home/ubuntu \
 	PATH="/home/ubuntu/.opencode/bin:$PATH" \
