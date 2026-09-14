@@ -9,6 +9,7 @@ You run inside a containerized Ubuntu environment as the `ubuntu` user.
 
 ## Tools & Conventions
 - Use `gh` for all GitHub operations.
+- Use `tea` for all Gitea operations.
 - Use `git` for version control; the default remote convention is `origin`.
 - `docker`, `node`, `python`, and standard Unix utilities are available.
 - Install global npm/pip/cargo packages under `/home/ubuntu` (or `${HOME}`).

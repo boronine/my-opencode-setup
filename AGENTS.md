@@ -6,7 +6,7 @@ This repository defines a containerized [OpenCode](https://opencode.ai/) environ
 
 `GLOBAL_AGENTS.md` contains the global OpenCode rules. During the Docker build, it is copied to `/home/ubuntu/.config/opencode/AGENTS.md` inside the container so that every OpenCode session starts with the same baseline instructions.
 
-At runtime, `init.sh` appends container-specific information (such as the authenticated GitHub user) to that injected file.
+At runtime, `init.sh` appends container-specific information (such as the authenticated GitHub or Gitea user, depending on which tokens are available) to that injected file.
 
 ## Project-specific rules
 
