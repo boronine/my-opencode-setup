@@ -2,14 +2,13 @@
 
 Dockerized OpenCode server environment.
 
-## Deploy with Dokploy
+## Configuration
 
-1. Add this repo as a Compose source in Dokploy (Git provider)
-2. Set the following environment variables in Dokploy:
+Set the following environment variables:
 
 | Variable | Description |
 |----------|-------------|
-| `DOMAIN` | Subdomain for this service (e.g. `opencode.dokploy.boronine.com`) |
+| `DOMAIN` | Domain for this service (e.g. `opencode.example.com`) |
 | `DEEPSEEK_API_KEY` | DeepSeek API key |
 | `GH_TOKEN` | (optional) GitHub personal access token |
 | `GITEA_TOKEN` | (optional) Gitea access token |
@@ -17,5 +16,4 @@ Dockerized OpenCode server environment.
 | `OPENCODE_SERVER_PASSWORD` | Password for the OpenCode web UI |
 | `MOONSHOT_API_KEY` | (optional) Moonshot API key |
 
-3. Deploy — Traefik auto-provisions SSL via Let's Encrypt
-4. Access at `https://$DOMAIN`
+Run with Docker Compose — Traefik auto-provisions SSL via Let's Encrypt at `https://$DOMAIN`.

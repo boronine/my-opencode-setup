@@ -47,7 +47,6 @@ services:
       retries: 3
     networks:
       - opencode
-      - dokploy-network
 
 volumes:
   dind-data:
@@ -55,5 +54,3 @@ volumes:
 
 networks:
   opencode:
-  dokploy-network:
-    external: true
